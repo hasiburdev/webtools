@@ -14,7 +14,7 @@ export default function PasswordGeneratorPage() {
   return (
     <div className="flex flex-1 flex-col">
       {/* Page header */}
-      <section className="border-b border-border bg-card px-6 py-10">
+      <section className="border-b border-border bg-card px-6 pt-4 pb-6">
         <div className="mx-auto max-w-6xl">
           <nav className="mb-4 flex items-center gap-1 text-xs text-muted-foreground">
             <Link href="/" className="transition-colors hover:text-foreground">
@@ -24,13 +24,7 @@ export default function PasswordGeneratorPage() {
             <span className="text-foreground">Password Generator</span>
           </nav>
 
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            Password Generator
-          </h1>
-          <p className="mt-2 max-w-lg text-muted-foreground">
-            Generate strong, secure passwords instantly. Choose length and
-            character types — all processing happens in your browser.
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Password Generator</h1>
         </div>
       </section>
 

@@ -89,6 +89,17 @@ export default function Home() {
       <section className="border-b border-border bg-card px-6 py-20 text-center">
         <div className="mx-auto max-w-2xl">
           <Badge variant="outline">Free · No signup · Browser-based</Badge>
+          <p className="mt-2 text-xs text-muted-foreground">
+            by{" "}
+            <a
+              href="https://hasiburhasan.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline-offset-4 hover:underline"
+            >
+              Hasibur Rahman Hasan
+            </a>
+          </p>
           <h1 className="mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Developer tools, <span className="text-muted-foreground">without the friction.</span>
           </h1>

@@ -30,8 +30,11 @@ export default function Navbar() {
           <Link href="/" className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
             All Tools
           </Link>
+          <Link href="/about" className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
+            About
+          </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/hasiburdev/webtools"
             target="_blank"
             rel="noopener noreferrer"
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}

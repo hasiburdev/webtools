@@ -14,7 +14,7 @@ export default function SlugifyPage() {
   return (
     <div className="flex flex-1 flex-col">
       {/* Page header */}
-      <section className="border-b border-border bg-card px-6 py-10">
+      <section className="border-b border-border bg-card px-6 pt-4 pb-6">
         <div className="mx-auto max-w-6xl">
           <nav className="mb-4 flex items-center gap-1 text-xs text-muted-foreground">
             <Link href="/" className="transition-colors hover:text-foreground">
@@ -24,13 +24,7 @@ export default function SlugifyPage() {
             <span className="text-foreground">Slugify</span>
           </nav>
 
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            Slugify
-          </h1>
-          <p className="mt-2 max-w-lg text-muted-foreground">
-            Convert any text into a clean, URL-friendly slug. Strips accents,
-            replaces spaces, and removes special characters — instantly.
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Slugify</h1>
         </div>
       </section>
 
