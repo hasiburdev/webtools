@@ -7,7 +7,7 @@ const tools = [
   {
     name: "Password Generator",
     description: "Create strong, secure passwords with custom length and character rules.",
-    href: "/",
+    href: "/password-generator",
     icon: (
       <svg
         viewBox="0 0 24 24"
