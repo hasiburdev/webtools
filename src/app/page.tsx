@@ -26,7 +26,7 @@ const tools = [
   {
     name: "Slugify",
     description: "Convert any text into a clean, URL-friendly slug instantly.",
-    href: "/",
+    href: "/slugify",
     icon: (
       <svg
         viewBox="0 0 24 24"
