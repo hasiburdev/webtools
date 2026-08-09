@@ -45,7 +45,7 @@ const tools = [
   {
     name: "Image Resizer",
     description: "Resize images to any exact dimensions, right in your browser.",
-    href: "/",
+    href: "/image-resizer",
     icon: (
       <svg
         viewBox="0 0 24 24"
