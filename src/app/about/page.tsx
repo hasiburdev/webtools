@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { pageSeo } from "@/content/seo";
 
-export const metadata: Metadata = {
-  title: "About — WebTools",
-  description:
-    "Learn about WebTools — a growing collection of free, browser-based utilities built by Hasibur Rahman Hasan.",
-};
+export const metadata: Metadata = pageSeo.about;
 
 const tools = [
   { name: "Password Generator", href: "/password-generator", status: "live" },
@@ -38,15 +35,13 @@ export default function AboutPage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             The Project
           </p>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">
-            Why WebTools exists
-          </h2>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Why WebTools exists</h2>
           <div className="space-y-4 text-muted-foreground leading-7">
             <p>
-              WebTools started from a simple frustration: constantly reaching for scattered, ad-heavy,
-              or over-engineered websites to do trivial things — generate a password, slugify a title,
-              resize an image. These are tasks that come up repeatedly in day-to-day development work,
-              and they deserve a clean, instant, no-friction solution.
+              WebTools started from a simple frustration: constantly reaching for scattered,
+              ad-heavy, or over-engineered websites to do trivial things — generate a password,
+              slugify a title, resize an image. These are tasks that come up repeatedly in
+              day-to-day development work, and they deserve a clean, instant, no-friction solution.
             </p>
             <p>
               The goal is straightforward — build the mini tools I personally need most often, keep
@@ -54,8 +49,9 @@ export default function AboutPage() {
               a new recurring need comes up. No accounts. No tracking. No bloat.
             </p>
             <p>
-              This is a living project. As I encounter new tools that I find myself needing regularly,
-              I add them here. Think of it as a personal utility belt that grows over time.
+              This is a living project. As I encounter new tools that I find myself needing
+              regularly, I add them here. Think of it as a personal utility belt that grows over
+              time.
             </p>
           </div>
         </section>
@@ -111,10 +107,10 @@ export default function AboutPage() {
             Hasibur Rahman Hasan
           </h2>
           <p className="text-muted-foreground leading-7">
-            I&apos;m a backend-focused full-stack developer with a deep interest in building scalable,
-            performant, and robust architectures. I enjoy solving complex problems, optimizing systems,
-            and creating seamless user experiences — whether that&apos;s a high-throughput API or a
-            clean, no-friction tool like this one.
+            I&apos;m a backend-focused full-stack developer with a deep interest in building
+            scalable, performant, and robust architectures. I enjoy solving complex problems,
+            optimizing systems, and creating seamless user experiences — whether that&apos;s a
+            high-throughput API or a clean, no-friction tool like this one.
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <a

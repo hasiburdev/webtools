@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { pageSeo } from "@/content/seo";
 
 import { PasswordGenerator } from "@/modules/password-generator";
 
-export const metadata: Metadata = {
-  title: "Password Generator — WebTools",
-  description:
-    "Generate strong, secure passwords instantly. Customize length, uppercase, lowercase, numbers, and symbols.",
-};
+export const metadata: Metadata = pageSeo.passwordGenerator;
 
 export default function PasswordGeneratorPage() {
   return (

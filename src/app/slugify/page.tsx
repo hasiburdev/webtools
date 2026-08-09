@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { pageSeo } from "@/content/seo";
 
 import { SlugifyTool } from "@/modules/slugify";
 
-export const metadata: Metadata = {
-  title: "Slugify — WebTools",
-  description:
-    "Convert any text into a clean, URL-friendly slug. Handles accented characters, symbols, and custom separators.",
-};
+export const metadata: Metadata = pageSeo.slugify;
 
 export default function SlugifyPage() {
   return (

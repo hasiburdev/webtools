@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { pageSeo } from "@/content/seo";
 
 import { ImageResizer } from "@/modules/image-resizer";
 
-export const metadata: Metadata = {
-  title: "Image Resizer — WebTools",
-  description:
-    "Crop, resize, and convert images to any dimension right in your browser. Drag-and-drop upload, interactive crop selection, and instant download. No server, no signup.",
-};
+export const metadata: Metadata = pageSeo.imageResizer;
 
 export default function ImageResizerPage() {
   return (
