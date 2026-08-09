@@ -65,6 +65,7 @@ const tools = [
     name: "Image Compressor",
     description: "Compress images to reduce file size without sacrificing quality.",
     href: "/",
+    disabled: true,
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -117,27 +118,53 @@ export default function Home() {
             All Tools
           </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {tools.map((tool) => (
-              <Link key={tool.name} href={tool.href} className="group block">
-                <Card className="h-full transition-all duration-200 group-hover:ring-foreground/20 group-hover:shadow-md">
-                  <CardHeader>
-                    <span
-                      className={`flex h-10 w-10 items-center justify-center ${tool.iconClass}`}
-                    >
-                      {tool.icon}
-                    </span>
-                    <CardTitle>{tool.name}</CardTitle>
-                    <CardDescription>{tool.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="mt-auto">
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground transition-colors group-hover:text-foreground">
-                      Open tool
-                      <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
-                    </span>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+            {tools.map((tool) =>
+              tool.disabled ? (
+                <div key={tool.name} className="cursor-not-allowed">
+                  <Card className="h-full select-none opacity-60">
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <span
+                          className={`flex h-10 w-10 items-center justify-center ${tool.iconClass}`}
+                        >
+                          {tool.icon}
+                        </span>
+                        <Badge variant="outline" className="text-[10px]">
+                          Coming Soon
+                        </Badge>
+                      </div>
+                      <CardTitle>{tool.name}</CardTitle>
+                      <CardDescription>{tool.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="mt-auto">
+                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                        Coming soon
+                      </span>
+                    </CardContent>
+                  </Card>
+                </div>
+              ) : (
+                <Link key={tool.name} href={tool.href} className="group block">
+                  <Card className="h-full transition-all duration-200 group-hover:ring-foreground/20 group-hover:shadow-md">
+                    <CardHeader>
+                      <span
+                        className={`flex h-10 w-10 items-center justify-center ${tool.iconClass}`}
+                      >
+                        {tool.icon}
+                      </span>
+                      <CardTitle>{tool.name}</CardTitle>
+                      <CardDescription>{tool.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="mt-auto">
+                      <span className="flex items-center gap-1 text-xs text-muted-foreground transition-colors group-hover:text-foreground">
+                        Open tool
+                        <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
+                      </span>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ),
+            )}
           </div>
         </div>
       </section>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import ThemeToggle from "@/components/theme-toggle";
 
 export default function Navbar() {
   return (
@@ -41,6 +42,7 @@ export default function Navbar() {
           >
             GitHub
           </a>
+          <ThemeToggle />
         </div>
       </nav>
     </header>

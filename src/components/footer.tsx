@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import ThemeToggle from "@/components/theme-toggle";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -133,17 +134,20 @@ export default function Footer() {
           <p className="text-sm text-muted-foreground">
             &copy; {year} WebTools. Free tools for developers.
           </p>
-          <p className="text-sm text-muted-foreground">
-            Built by{" "}
-            <a
-              href="https://hasiburhasan.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn("font-medium text-foreground underline-offset-4 hover:underline")}
-            >
-              Hasibur Rahman Hasan
-            </a>
-          </p>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <p className="text-sm text-muted-foreground">
+              Built by{" "}
+              <a
+                href="https://hasiburhasan.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn("font-medium text-foreground underline-offset-4 hover:underline")}
+              >
+                Hasibur Rahman Hasan
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
