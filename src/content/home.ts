@@ -207,8 +207,7 @@ export const homeTools: HomeTool[] = [
     name: "Formatters",
     description:
       "Format JSON, YAML, Markdown, TOML, JS, TS, Go, HTML, and CSS.",
-    href: "/",
-    disabled: true,
+    href: "/formatters",
     icon: "formatters",
     iconClass:
       "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-950/60",

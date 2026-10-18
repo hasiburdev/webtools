@@ -216,4 +216,41 @@ export const pageSeo = {
         "Resize and crop images to any dimension in your browser. Drag-and-drop, interactive crop, instant download. No server, no signup.",
     },
   },
+
+  // Formatters — /formatters
+  formatters: {
+    title: "Code & Data Formatters",
+    description:
+      "Format, validate, beautify, and minify JSON, YAML, TOML, SQL, XML, HTML, CSS, JavaScript, TypeScript, and Markdown instantly in your browser. Clean indentation, key sorting, and syntax error detection. 100% client-side, zero server uploads.",
+    keywords: [
+      "json formatter",
+      "yaml formatter",
+      "sql formatter",
+      "xml formatter",
+      "toml formatter",
+      "html formatter",
+      "css formatter",
+      "javascript formatter",
+      "typescript formatter",
+      "markdown formatter",
+      "format json online",
+      "code beautifier",
+      "code minifier",
+      "online code formatters",
+      "browser developer tools",
+    ],
+    alternates: { canonical: `${siteConfig.url}/formatters` },
+    openGraph: {
+      url: `${siteConfig.url}/formatters`,
+      title: `Code & Data Formatters — ${siteConfig.name}`,
+      description:
+        "Format, validate, beautify, and minify JSON, YAML, TOML, SQL, XML, HTML, CSS, JS, TS, and Markdown in your browser. 100% private, client-side.",
+    },
+    twitter: {
+      title: `Code & Data Formatters — ${siteConfig.name}`,
+      description:
+        "Format, validate, beautify, and minify JSON, YAML, TOML, SQL, XML, HTML, CSS, JS, TS, and Markdown in your browser. 100% private, client-side.",
+    },
+  },
 } satisfies Record<string, Metadata>;
+
