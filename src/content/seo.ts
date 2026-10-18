@@ -310,6 +310,187 @@ export const pageSeo = {
         "Interactive color picker with HEX, RGB, HSL, CMYK conversions, color harmonies, shades, tints, and WCAG contrast checking.",
     },
   },
+
+  // URL Encoder/Decoder — /url-encoder-decoder
+  urlEncoderDecoder: {
+    title: "URL Encoder & Decoder",
+    description:
+      "Encode and decode URLs, URI components, and query parameters online. Parse and edit query parameters interactively in real-time. Fast, secure, 100% browser-based.",
+    keywords: [
+      "url encoder",
+      "url decoder",
+      "uri encoder",
+      "encodeuricomponent",
+      "decodeuricomponent",
+      "query parameter parser",
+      "url escape",
+      "online url tools",
+      "base64 url encoder",
+    ],
+    alternates: { canonical: `${siteConfig.url}/url-encoder-decoder` },
+    openGraph: {
+      url: `${siteConfig.url}/url-encoder-decoder`,
+      title: `URL Encoder & Decoder — ${siteConfig.name}`,
+      description:
+        "Encode and decode URLs, URI components, and query parameters online with live parameter breakdown. 100% private.",
+    },
+    twitter: {
+      title: `URL Encoder & Decoder — ${siteConfig.name}`,
+      description:
+        "Encode and decode URLs, URI components, and query parameters online with live parameter breakdown. 100% private.",
+    },
+  },
+
+  // Color Converter — /color-converter
+  colorConverter: {
+    title: "Color Converter",
+    description:
+      "Convert colors seamlessly between HEX, RGB, HSL, HSV, CMYK, and CSS named colors. Real-time WCAG 2.1 contrast checking and CSS code generation in your browser. Free and private.",
+    keywords: [
+      "color converter",
+      "hex to rgb",
+      "rgb to hex",
+      "hsl to rgb",
+      "cmyk to rgb",
+      "css color names",
+      "color code converter",
+      "wcag contrast checker",
+      "online color tool",
+    ],
+    alternates: { canonical: `${siteConfig.url}/color-converter` },
+    openGraph: {
+      url: `${siteConfig.url}/color-converter`,
+      title: `Color Converter — ${siteConfig.name}`,
+      description:
+        "Convert colors between HEX, RGB, HSL, HSV, CMYK, and CSS named colors with live WCAG contrast checking.",
+    },
+    twitter: {
+      title: `Color Converter — ${siteConfig.name}`,
+      description:
+        "Convert colors between HEX, RGB, HSL, HSV, CMYK, and CSS named colors with live WCAG contrast checking.",
+    },
+  },
+
+  // Image to Base64 Converter — /image-to-base64-converter
+  imageToBase64Converter: {
+    title: "Image to Base64 Converter",
+    description:
+      "Convert images to Base64 data URIs, HTML img tags, and CSS background snippets. Decode Base64 strings back to images with instant preview and download. 100% browser-based.",
+    keywords: [
+      "image to base64",
+      "base64 to image",
+      "data uri generator",
+      "base64 image decoder",
+      "inline image encoder",
+      "convert png to base64",
+      "convert svg to base64",
+      "base64 css background",
+      "online image tools",
+    ],
+    alternates: { canonical: `${siteConfig.url}/image-to-base64-converter` },
+    openGraph: {
+      url: `${siteConfig.url}/image-to-base64-converter`,
+      title: `Image to Base64 Converter — ${siteConfig.name}`,
+      description:
+        "Convert images to Base64 data URIs and decode Base64 strings back into downloadable images. Fast, secure, 100% private.",
+    },
+    twitter: {
+      title: `Image to Base64 Converter — ${siteConfig.name}`,
+      description:
+        "Convert images to Base64 data URIs and decode Base64 strings back into downloadable images. Fast, secure, 100% private.",
+    },
+  },
+
+  // Placeholder Thumbnail Generator — /placeholder-thumbnail-generator
+  placeholderThumbnailGenerator: {
+    title: "Placeholder Thumbnail Generator",
+    description:
+      "Generate custom placeholder images and mock thumbnails in any dimension. Customize gradients, patterns, text, and export as PNG, WebP, or SVG. Free, fast, and 100% browser-based.",
+    keywords: [
+      "placeholder image generator",
+      "thumbnail generator",
+      "mockup placeholder",
+      "dummy image generator",
+      "custom dimensions placeholder",
+      "youtube thumbnail placeholder",
+      "opengraph image generator",
+      "svg placeholder generator",
+      "online image tools",
+    ],
+    alternates: {
+      canonical: `${siteConfig.url}/placeholder-thumbnail-generator`,
+    },
+    openGraph: {
+      url: `${siteConfig.url}/placeholder-thumbnail-generator`,
+      title: `Placeholder Thumbnail Generator — ${siteConfig.name}`,
+      description:
+        "Generate custom placeholder images and mock thumbnails in any dimension. Download as PNG, WebP, or SVG.",
+    },
+    twitter: {
+      title: `Placeholder Thumbnail Generator — ${siteConfig.name}`,
+      description:
+        "Generate custom placeholder images and mock thumbnails in any dimension. Download as PNG, WebP, or SVG.",
+    },
+  },
+
+  // QR Code Generator — /qr-code-generator
+  qrCodeGenerator: {
+    title: "QR Code Generator",
+    description:
+      "Generate custom QR codes for URLs, WiFi networks, vCards, emails, SMS, and plain text. Add custom colors and center logo overlays. Free, 100% browser-based with PNG, WebP, and SVG export.",
+    keywords: [
+      "qr code generator",
+      "free qr code maker",
+      "wifi qr code",
+      "vcard qr code",
+      "qr code with logo",
+      "custom qr code colors",
+      "svg qr code generator",
+      "vector qr code",
+      "online qr tools",
+    ],
+    alternates: { canonical: `${siteConfig.url}/qr-code-generator` },
+    openGraph: {
+      url: `${siteConfig.url}/qr-code-generator`,
+      title: `QR Code Generator — ${siteConfig.name}`,
+      description:
+        "Generate custom QR codes for URLs, WiFi, contacts, and text with custom colors and logo support.",
+    },
+    twitter: {
+      title: `QR Code Generator — ${siteConfig.name}`,
+      description:
+        "Generate custom QR codes for URLs, WiFi, contacts, and text with custom colors and logo support.",
+    },
+  },
+
+  // CSV to JSON & JSON to CSV — /csv-json-converter
+  csvJsonConverter: {
+    title: "CSV to JSON & JSON to CSV Converter",
+    description:
+      "Convert tabular data between CSV and JSON formats instantly. Features auto delimiter detection, live tabular data preview, dynamic typing, and object flattening. 100% browser-based.",
+    keywords: [
+      "csv to json",
+      "json to csv",
+      "csv converter",
+      "json converter",
+      "csv parser online",
+      "tabular data converter",
+      "convert excel csv to json",
+      "developer tools",
+    ],
+    alternates: { canonical: `${siteConfig.url}/csv-json-converter` },
+    openGraph: {
+      url: `${siteConfig.url}/csv-json-converter`,
+      title: `CSV to JSON & JSON to CSV Converter — ${siteConfig.name}`,
+      description:
+        "Convert tabular data between CSV and JSON formats with live table preview and customizable delimiters.",
+    },
+    twitter: {
+      title: `CSV to JSON & JSON to CSV Converter — ${siteConfig.name}`,
+      description:
+        "Convert tabular data between CSV and JSON formats with live table preview and customizable delimiters.",
+    },
+  },
 } satisfies Record<string, Metadata>;
 
 

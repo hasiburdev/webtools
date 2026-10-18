@@ -9,9 +9,9 @@
 WebTools defines **19 tools** in [`src/content/home.ts`](file:///home/hasibur/Code/hasiburdev/webtools/src/content/home.ts) and has corresponding custom SVG icons in [`src/components/icons/`](file:///home/hasibur/Code/hasiburdev/webtools/src/components/icons/).
 
 ### Current Implementation Status
-* **Progress:** 6 of 19 tools completed (31.6%)
-* **Implemented (6):** Password Generator, Slugify, Image Resizer, Formatters, Word Counter, Color Picker
-* **Remaining (13):** Image Compressor, CSV ↔ JSON Converter, Color Converter, Placeholder Thumbnail Generator, QR Code Generator, Image to PDF, PDF to Image, Video to Audio Converter, Site Checker, URL Encoder/Decoder, Online Color Picker, Image to Base64 Converter, Validators
+* **Progress:** 12 of 19 tools completed (63.2%)
+* **Implemented (12):** Password Generator, Slugify, Image Resizer, Formatters, Word Counter, Color Picker, URL Encoder/Decoder, Color Converter, Image to Base64 Converter, Placeholder Thumbnail Generator, QR Code Generator, CSV to JSON & JSON to CSV
+* **Remaining (7):** Image Compressor, Image to PDF, PDF to Image, Video to Audio Converter, Site Checker, Online Color Picker, Validators
 
 | # | Tool Name | Route | Status | Complexity | Key Technologies |
 |---|---|---|---|---|---|
@@ -20,17 +20,17 @@ WebTools defines **19 tools** in [`src/content/home.ts`](file:///home/hasibur/Co
 | 3 | **Image Resizer** | `/image-resizer` | ✅ Implemented | Medium | HTML5 Canvas, Drag-and-drop |
 | 4 | **Formatters** | `/formatters` | ✅ Implemented | Medium | Prettier, smol-toml, yaml, sql-formatter, xml-formatter |
 | 5 | **Image Compressor** | `/image-compressor` | ⏳ Pending | Medium | Canvas / `browser-image-compression` |
-| 6 | **CSV to JSON & JSON to CSV** | `/csv-json-converter` | ⏳ Pending | Low | `papaparse` / custom RFC 4180 parser |
-| 7 | **Color Converter** | `/color-converter` | ⏳ Pending | Low | `colord` / color math |
-| 8 | **Placeholder Thumbnail Generator** | `/placeholder-thumbnail-generator` | ⏳ Pending | Low | HTML5 Canvas / SVG rendering |
-| 9 | **QR Code Generator** | `/qr-code-generator` | ⏳ Pending | Low | `qrcode` / Canvas / SVG |
+| 6 | **CSV to JSON & JSON to CSV** | `/csv-json-converter` | ✅ Implemented | Low | `papaparse`, tabular data preview, delimiter auto-detection |
+| 7 | **Color Converter** | `/color-converter` | ✅ Implemented | Low | Bidirectional HEX/RGB/HSL/HSV/CMYK/CSS Names, WCAG 2.1 |
+| 8 | **Placeholder Thumbnail Generator** | `/placeholder-thumbnail-generator` | ✅ Implemented | Low | HTML5 Canvas / SVG rendering, patterns, gradients |
+| 9 | **QR Code Generator** | `/qr-code-generator` | ✅ Implemented | Low | `qrcode`, Canvas & SVG, Wi-Fi/vCard/SMS/URLs, logo support |
 | 10 | **Image to PDF** | `/image-to-pdf` | ⏳ Pending | Medium | `pdf-lib` or `jspdf` |
 | 11 | **PDF to Image** | `/pdf-to-image` | ⏳ Pending | ⚠️ Medium-High | `pdfjs-dist` (Web Worker setup) |
 | 12 | **Video to Audio Converter** | `/video-to-audio-converter` | ⏳ Pending | 🔴 **High (Difficult)** | Web Audio API / `lamejs` or `@ffmpeg/ffmpeg` |
 | 13 | **Site Checker** | `/site-checker` | ⏳ Pending | 🔴 **High (Difficult)** | Browser CORS constraint / Proxy / Direct Input |
-| 14 | **URL Encoder / Decoder** | `/url-encoder-decoder` | ⏳ Pending | Low | `encodeURIComponent` / `URLSearchParams` |
+| 14 | **URL Encoder / Decoder** | `/url-encoder-decoder` | ✅ Implemented | Low | `encodeURIComponent` / `URLSearchParams` / Base64 URL |
 | 15 | **Online Color Picker** | `/online-color-picker` | ⏳ Pending | ⚠️ Medium | `EyeDropper` API (Chromium only) + Canvas fallback |
-| 16 | **Image to Base64 Converter** | `/image-to-base64-converter` | ⏳ Pending | Low | `FileReader` / Data URLs |
+| 16 | **Image to Base64 Converter** | `/image-to-base64-converter` | ✅ Implemented | Low | Native `FileReader`, Drag-and-drop, Data URLs, HTML/CSS snippets |
 | 17 | **Word Counter** | `/word-counter` | ✅ Implemented | Low | Native `Intl.Segmenter` & regex, real-time analytics, case transformations |
 | 18 | **Color Picker** | `/color-picker` | ✅ Implemented | Low | Pure TS color math, 2D Sat/Val canvas, harmonies, tints/shades, WCAG 2.1 |
 | 19 | **Validators** | `/validators` | ⏳ Pending | ⚠️ Medium | Parsers for JSON, YAML, TOML, Markdown, etc. |
@@ -294,24 +294,24 @@ flowchart TD
     P5 --> P6["Phase 6: External Inspection<br/>• Site Checker (CORS / Hybrid)"]
 ```
 
-### Phase 1: High-Velocity Text Utilities (Days 1–2)
-* Tools: **Word Counter**, **URL Encoder/Decoder**
+### Phase 1: High-Velocity Text Utilities (Complete)
+* Tools: **Word Counter** (✅ Implemented), **URL Encoder/Decoder** (✅ Implemented)
 * Dependencies: Zero new packages.
 * Effort: Very low, immediate high-value additions.
 
-### Phase 2: Color Suite (Days 3–4)
-* Tools: **Color Converter**, **Color Picker**, **Online Color Picker**
-* Dependencies: `colord` (~1.7 KB).
-* Unified core: Share color conversion algorithms across all three tools.
+### Phase 2: Color Suite (In Progress)
+* Tools: **Color Converter** (✅ Implemented), **Color Picker** (✅ Implemented), **Online Color Picker** (⏳ Pending)
+* Dependencies: Pure TypeScript color math, WCAG 2.1 compliance algorithms.
+* Unified core: Shared color conversion algorithms across tools.
 
-### Phase 3: Data & Validation (Days 5–7)
-* Tools: **CSV to JSON & JSON to CSV**, **Validators**
+### Phase 3: Data & Validation (In Progress)
+* Tools: **CSV to JSON & JSON to CSV** (✅ Implemented), **Validators** (⏳ Pending)
 * Dependencies: `papaparse`, reuse `yaml` & `smol-toml`.
-* Leverage existing Monaco / Textarea editor components from the Formatters tool.
+* Leverages tabbed layout, dynamic typing, live tabular preview, and object flattening.
 
-### Phase 4: Graphics & Image Utilities (Days 8–10)
-* Tools: **Placeholder Thumbnail Generator**, **QR Code Generator**, **Image to Base64**, **Image Compressor**
-* Dependencies: `qrcode`, `browser-image-compression`.
+### Phase 4: Graphics & Image Utilities (In Progress)
+* Tools: **Placeholder Thumbnail Generator** (✅ Implemented), **QR Code Generator** (✅ Implemented), **Image to Base64** (✅ Implemented), **Image Compressor** (⏳ Pending)
+* Dependencies: `qrcode`, HTML5 Canvas, SVG.
 * Canvas-centric processing with instant download triggers.
 
 ### Phase 5: Heavy Documents & Media (Days 11–14)

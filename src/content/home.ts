@@ -80,16 +80,14 @@ export const homeTools: HomeTool[] = [
   {
     name: "CSV to JSON and JSON to CSV",
     description: "Convert tabular data between CSV and JSON formats.",
-    href: "/",
-    disabled: true,
+    href: "/csv-json-converter",
     icon: "csvJsonConverter",
     iconClass: "text-sky-600 bg-sky-50 dark:text-sky-400 dark:bg-sky-950/60",
   },
   {
     name: "Color Converter",
     description: "Convert colors between common color formats instantly.",
-    href: "/",
-    disabled: true,
+    href: "/color-converter",
     icon: "colorConverter",
     iconClass:
       "text-fuchsia-600 bg-fuchsia-50 dark:text-fuchsia-400 dark:bg-fuchsia-950/60",
@@ -97,8 +95,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "Placeholder Thumbnail Generator",
     description: "Generate placeholder thumbnails for mockups and layouts.",
-    href: "/",
-    disabled: true,
+    href: "/placeholder-thumbnail-generator",
     icon: "placeholderThumbnailGenerator",
     iconClass:
       "text-indigo-600 bg-indigo-50 dark:text-indigo-400 dark:bg-indigo-950/60",
@@ -106,8 +103,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "QR Code Generator",
     description: "Generate QR codes from text, URLs, and contact details.",
-    href: "/",
-    disabled: true,
+    href: "/qr-code-generator",
     icon: "qrCodeGenerator",
     iconClass:
       "text-slate-700 bg-slate-100 dark:text-slate-300 dark:bg-slate-900/60",
@@ -151,8 +147,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "URL Encoder/Decoder",
     description: "Encode and decode URLs for safe sharing and transport.",
-    href: "/",
-    disabled: true,
+    href: "/url-encoder-decoder",
     icon: "urlEncoderDecoder",
     iconClass:
       "text-violet-600 bg-violet-50 dark:text-violet-400 dark:bg-violet-950/60",
@@ -169,8 +164,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "Image to Base64 Converter",
     description: "Convert image files into Base64 strings.",
-    href: "/",
-    disabled: true,
+    href: "/image-to-base64-converter",
     icon: "imageToBase64Converter",
     iconClass:
       "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-950/60",
