@@ -178,8 +178,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "Word Counter",
     description: "Count words, characters, and sentences in text.",
-    href: "/",
-    disabled: true,
+    href: "/word-counter",
     icon: "wordCounter",
     iconClass:
       "text-lime-600 bg-lime-50 dark:text-lime-400 dark:bg-lime-950/60",
@@ -187,8 +186,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "Color Picker",
     description: "Sample and manage colors with a simple picker tool.",
-    href: "/",
-    disabled: true,
+    href: "/color-picker",
     icon: "colorPicker",
     iconClass:
       "text-pink-600 bg-pink-50 dark:text-pink-400 dark:bg-pink-950/60",

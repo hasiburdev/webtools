@@ -252,5 +252,64 @@ export const pageSeo = {
         "Format, validate, beautify, and minify JSON, YAML, TOML, SQL, XML, HTML, CSS, JS, TS, and Markdown in your browser. 100% private, client-side.",
     },
   },
+
+  // Word Counter — /word-counter
+  wordCounter: {
+    title: "Word Counter & Text Analyzer",
+    description:
+      "Count words, characters, sentences, paragraphs, and reading time in real-time. Analyze keyword density and convert text cases instantly in your browser. Free, 100% client-side.",
+    keywords: [
+      "word counter",
+      "character counter",
+      "reading time calculator",
+      "text analyzer",
+      "keyword density checker",
+      "sentence counter",
+      "online word count",
+      "free text tools",
+    ],
+    alternates: { canonical: `${siteConfig.url}/word-counter` },
+    openGraph: {
+      url: `${siteConfig.url}/word-counter`,
+      title: `Word Counter & Text Analyzer — ${siteConfig.name}`,
+      description:
+        "Count words, characters, sentences, paragraphs, reading time, and keyword density. 100% private and browser-based.",
+    },
+    twitter: {
+      title: `Word Counter & Text Analyzer — ${siteConfig.name}`,
+      description:
+        "Count words, characters, sentences, paragraphs, reading time, and keyword density. 100% private and browser-based.",
+    },
+  },
+
+  // Color Picker — /color-picker
+  colorPicker: {
+    title: "Color Picker & Palette Generator",
+    description:
+      "Pick, convert, and inspect colors with real-time HEX, RGB, HSL, HSV, and CMYK outputs. Generate color harmonies, tints, shades, and check WCAG contrast compliance in your browser.",
+    keywords: [
+      "color picker",
+      "hex color picker",
+      "rgb to hex",
+      "color harmony generator",
+      "wcag contrast checker",
+      "tints and shades",
+      "cmyk converter",
+      "online color tool",
+    ],
+    alternates: { canonical: `${siteConfig.url}/color-picker` },
+    openGraph: {
+      url: `${siteConfig.url}/color-picker`,
+      title: `Color Picker & Palette Generator — ${siteConfig.name}`,
+      description:
+        "Interactive color picker with HEX, RGB, HSL, CMYK conversions, color harmonies, shades, tints, and WCAG contrast checking.",
+    },
+    twitter: {
+      title: `Color Picker & Palette Generator — ${siteConfig.name}`,
+      description:
+        "Interactive color picker with HEX, RGB, HSL, CMYK conversions, color harmonies, shades, tints, and WCAG contrast checking.",
+    },
+  },
 } satisfies Record<string, Metadata>;
+
 
