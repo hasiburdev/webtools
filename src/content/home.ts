@@ -70,9 +70,8 @@ export const homeTools: HomeTool[] = [
   {
     name: "Image Compressor",
     description:
-      "Compress images to reduce file size without sacrificing quality.",
-    href: "/",
-    disabled: true,
+      "Compress and resize images with quality controls and file size previews.",
+    href: "/image-compressor",
     icon: "imageCompressor",
     iconClass:
       "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-950/60",
@@ -111,8 +110,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "Image to PDF",
     description: "Convert images into a PDF document in your browser.",
-    href: "/",
-    disabled: true,
+    href: "/image-to-pdf",
     icon: "imageToPdf",
     iconClass:
       "text-rose-600 bg-rose-50 dark:text-rose-400 dark:bg-rose-950/60",
@@ -154,9 +152,8 @@ export const homeTools: HomeTool[] = [
   },
   {
     name: "Online Color Picker",
-    description: "Pick colors from the screen and copy their values.",
-    href: "/",
-    disabled: true,
+    description: "Pick colors from images or your screen and copy their values.",
+    href: "/online-color-picker",
     icon: "onlineColorPicker",
     iconClass:
       "text-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-950/60",
@@ -198,7 +195,7 @@ export const homeTools: HomeTool[] = [
   {
     name: "Formatters",
     description:
-      "Format JSON, YAML, Markdown, TOML, JS, TS, Go, HTML, and CSS.",
+      "Format JSON, YAML, TOML, SQL, XML, HTML, CSS, JS, TS, and Markdown.",
     href: "/formatters",
     icon: "formatters",
     iconClass:

@@ -81,6 +81,36 @@ export const defaultMetadata: Metadata = {
 // ---------------------------------------------------------------------------
 
 export const pageSeo = {
+  imageCompressor: {
+    title: "Image Compressor",
+    description: "Compress PNG, JPEG, and WebP images locally with adjustable quality, optional resizing, and before-and-after file size previews.",
+    alternates: { canonical: `${siteConfig.url}/image-compressor` },
+    openGraph: {
+      title: `Image Compressor — ${siteConfig.name}`,
+      url: `${siteConfig.url}/image-compressor`,
+      description: "Compress and resize images in your browser. Preview results and download PNG, JPEG, or WebP.",
+    },
+  },
+  onlineColorPicker: {
+    title: "Online Color Picker",
+    description: "Sample exact colors from uploaded or pasted images with a magnified pixel preview, or use screen sampling where supported. Copy HEX, RGB, and HSL.",
+    alternates: { canonical: `${siteConfig.url}/online-color-picker` },
+    openGraph: {
+      title: `Online Color Picker — ${siteConfig.name}`,
+      url: `${siteConfig.url}/online-color-picker`,
+      description: "Pick colors from images or your screen and copy HEX, RGB, and HSL values.",
+    },
+  },
+  imageToPdf: {
+    title: "Image to PDF",
+    description: "Turn PNG, JPEG, and WebP images into a PDF in your browser. Reorder pages and choose A4, Letter, or fit-to-image sizing, margins, and quality.",
+    alternates: { canonical: `${siteConfig.url}/image-to-pdf` },
+    openGraph: {
+      title: `Image to PDF — ${siteConfig.name}`,
+      url: `${siteConfig.url}/image-to-pdf`,
+      description: "Combine images into a downloadable PDF with custom page order, size, orientation, and margins.",
+    },
+  },
   // Home — /
   home: {
     title: `${siteConfig.name} — Free Developer Utilities`,

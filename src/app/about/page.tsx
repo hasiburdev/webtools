@@ -3,15 +3,11 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { pageSeo } from "@/content/seo";
+import { homeTools } from "@/content/home";
 
 export const metadata: Metadata = pageSeo.about;
 
-const tools = [
-  { name: "Password Generator", href: "/password-generator", status: "live" },
-  { name: "Slugify", href: "/slugify", status: "live" },
-  { name: "Image Resizer", href: "/image-resizer", status: "live" },
-  { name: "Image Compressor", href: "/", status: "coming-soon" },
-];
+const tools = homeTools.map((tool) => ({ ...tool, status: tool.disabled ? "coming-soon" : "live" }));
 
 export default function AboutPage() {
   return (
