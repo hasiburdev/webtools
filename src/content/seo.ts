@@ -81,6 +81,16 @@ export const defaultMetadata: Metadata = {
 // ---------------------------------------------------------------------------
 
 export const pageSeo = {
+  markdownToPdf: {
+    title: "Markdown to PDF",
+    description: "Convert Markdown into a styled PDF in your browser. Preview your document, choose Modern, Editorial, or Minimal themes, and download an A4 or Letter PDF.",
+    alternates: { canonical: `${siteConfig.url}/markdown-to-pdf` },
+    openGraph: {
+      title: `Markdown to PDF — ${siteConfig.name}`,
+      url: `${siteConfig.url}/markdown-to-pdf`,
+      description: "Create beautiful PDFs from Markdown with live PDF previews and document themes. No uploads or signup required.",
+    },
+  },
   imageCompressor: {
     title: "Image Compressor",
     description: "Compress PNG, JPEG, and WebP images locally with adjustable quality, optional resizing, and before-and-after file size previews.",

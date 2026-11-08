@@ -8,6 +8,7 @@ export type HomeToolIconName =
   | "placeholderThumbnailGenerator"
   | "qrCodeGenerator"
   | "imageToPdf"
+  | "markdownToPdf"
   | "pdfToImage"
   | "videoToAudioConverter"
   | "siteChecker"
@@ -114,6 +115,13 @@ export const homeTools: HomeTool[] = [
     icon: "imageToPdf",
     iconClass:
       "text-rose-600 bg-rose-50 dark:text-rose-400 dark:bg-rose-950/60",
+  },
+  {
+    name: "Markdown to PDF",
+    description: "Turn Markdown into a styled PDF with document themes and a live preview.",
+    href: "/markdown-to-pdf",
+    icon: "markdownToPdf",
+    iconClass: "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-950/60",
   },
   {
     name: "PDF to Image",

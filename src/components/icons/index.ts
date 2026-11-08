@@ -9,6 +9,7 @@ import { ColorConverterIcon } from "./color-converter-icon";
 import { PlaceholderThumbnailGeneratorIcon } from "./placeholder-thumbnail-generator-icon";
 import { QrCodeGeneratorIcon } from "./qr-code-generator-icon";
 import { ImageToPdfIcon } from "./image-to-pdf-icon";
+import { MarkdownToPdfIcon } from "./markdown-to-pdf-icon";
 import { PdfToImageIcon } from "./pdf-to-image-icon";
 import { VideoToAudioConverterIcon } from "./video-to-audio-converter-icon";
 import { SiteCheckerIcon } from "./site-checker-icon";
@@ -31,6 +32,7 @@ export { ColorConverterIcon } from "./color-converter-icon";
 export { PlaceholderThumbnailGeneratorIcon } from "./placeholder-thumbnail-generator-icon";
 export { QrCodeGeneratorIcon } from "./qr-code-generator-icon";
 export { ImageToPdfIcon } from "./image-to-pdf-icon";
+export { MarkdownToPdfIcon } from "./markdown-to-pdf-icon";
 export { PdfToImageIcon } from "./pdf-to-image-icon";
 export { VideoToAudioConverterIcon } from "./video-to-audio-converter-icon";
 export { SiteCheckerIcon } from "./site-checker-icon";
@@ -53,6 +55,7 @@ export const homeToolIcons = {
   placeholderThumbnailGenerator: PlaceholderThumbnailGeneratorIcon,
   qrCodeGenerator: QrCodeGeneratorIcon,
   imageToPdf: ImageToPdfIcon,
+  markdownToPdf: MarkdownToPdfIcon,
   pdfToImage: PdfToImageIcon,
   videoToAudioConverter: VideoToAudioConverterIcon,
   siteChecker: SiteCheckerIcon,
