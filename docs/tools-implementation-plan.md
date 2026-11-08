@@ -9,9 +9,9 @@
 WebTools defines **19 tools** in [`src/content/home.ts`](file:///home/hasibur/Code/hasiburdev/webtools/src/content/home.ts) and has corresponding custom SVG icons in [`src/components/icons/`](file:///home/hasibur/Code/hasiburdev/webtools/src/components/icons/).
 
 ### Current Implementation Status
-* **Progress:** 12 of 19 tools completed (63.2%)
-* **Implemented (12):** Password Generator, Slugify, Image Resizer, Formatters, Word Counter, Color Picker, URL Encoder/Decoder, Color Converter, Image to Base64 Converter, Placeholder Thumbnail Generator, QR Code Generator, CSV to JSON & JSON to CSV
-* **Remaining (7):** Image Compressor, Image to PDF, PDF to Image, Video to Audio Converter, Site Checker, Online Color Picker, Validators
+* **Progress:** 15 of 19 tools available (78.9%)
+* **Implemented (15):** Password Generator, Slugify, Image Resizer, Formatters, Word Counter, Color Picker, URL Encoder/Decoder, Color Converter, Image to Base64 Converter, Placeholder Thumbnail Generator, QR Code Generator, CSV to JSON & JSON to CSV, Image Compressor, Image to PDF, Online Color Picker
+* **Remaining (4):** PDF to Image, Video to Audio Converter, Site Checker, Validators
 
 | # | Tool Name | Route | Status | Complexity | Key Technologies |
 |---|---|---|---|---|---|
@@ -19,17 +19,17 @@ WebTools defines **19 tools** in [`src/content/home.ts`](file:///home/hasibur/Co
 | 2 | **Slugify** | `/slugify` | ✅ Implemented | Low | Regex & Unicode normalization |
 | 3 | **Image Resizer** | `/image-resizer` | ✅ Implemented | Medium | HTML5 Canvas, Drag-and-drop |
 | 4 | **Formatters** | `/formatters` | ✅ Implemented | Medium | Prettier, smol-toml, yaml, sql-formatter, xml-formatter |
-| 5 | **Image Compressor** | `/image-compressor` | ⏳ Pending | Medium | Canvas / `browser-image-compression` |
+| 5 | **Image Compressor** | `/image-compressor` | ✅ Implemented | Low–Medium | Canvas, single-image quality/resize controls, before/after preview |
 | 6 | **CSV to JSON & JSON to CSV** | `/csv-json-converter` | ✅ Implemented | Low | `papaparse`, tabular data preview, delimiter auto-detection |
 | 7 | **Color Converter** | `/color-converter` | ✅ Implemented | Low | Bidirectional HEX/RGB/HSL/HSV/CMYK/CSS Names, WCAG 2.1 |
 | 8 | **Placeholder Thumbnail Generator** | `/placeholder-thumbnail-generator` | ✅ Implemented | Low | HTML5 Canvas / SVG rendering, patterns, gradients |
 | 9 | **QR Code Generator** | `/qr-code-generator` | ✅ Implemented | Low | `qrcode`, Canvas & SVG, Wi-Fi/vCard/SMS/URLs, logo support |
-| 10 | **Image to PDF** | `/image-to-pdf` | ⏳ Pending | Medium | `pdf-lib` or `jspdf` |
+| 10 | **Image to PDF** | `/image-to-pdf` | ✅ Implemented | Low–Medium | Lazy-loaded `pdf-lib`, ordered images, page layout controls |
 | 11 | **PDF to Image** | `/pdf-to-image` | ⏳ Pending | ⚠️ Medium-High | `pdfjs-dist` (Web Worker setup) |
 | 12 | **Video to Audio Converter** | `/video-to-audio-converter` | ⏳ Pending | 🔴 **High (Difficult)** | Web Audio API / `lamejs` or `@ffmpeg/ffmpeg` |
 | 13 | **Site Checker** | `/site-checker` | ⏳ Pending | 🔴 **High (Difficult)** | Browser CORS constraint / Proxy / Direct Input |
 | 14 | **URL Encoder / Decoder** | `/url-encoder-decoder` | ✅ Implemented | Low | `encodeURIComponent` / `URLSearchParams` / Base64 URL |
-| 15 | **Online Color Picker** | `/online-color-picker` | ⏳ Pending | ⚠️ Medium | `EyeDropper` API (Chromium only) + Canvas fallback |
+| 15 | **Online Color Picker** | `/online-color-picker` | ✅ Implemented | Low–Medium | Feature-detected `EyeDropper`, image canvas with 10× loupe and keyboard sampling |
 | 16 | **Image to Base64 Converter** | `/image-to-base64-converter` | ✅ Implemented | Low | Native `FileReader`, Drag-and-drop, Data URLs, HTML/CSS snippets |
 | 17 | **Word Counter** | `/word-counter` | ✅ Implemented | Low | Native `Intl.Segmenter` & regex, real-time analytics, case transformations |
 | 18 | **Color Picker** | `/color-picker` | ✅ Implemented | Low | Pure TS color math, 2D Sat/Val canvas, harmonies, tints/shades, WCAG 2.1 |
@@ -38,6 +38,21 @@ WebTools defines **19 tools** in [`src/content/home.ts`](file:///home/hasibur/Co
 ---
 
 ## 2. Technical Feasibility & Difficult Tools Deep Dive
+
+### Latest implementations and remaining complexity
+
+* **Image Compressor:** Single PNG/JPEG/WebP input, JPEG/WebP quality, maximum-width resizing, side-by-side previews, file size savings, and PNG/JPEG/WebP download. Batch/ZIP export and a sliding comparison overlay remain enhancements.
+* **Image to PDF:** Up to 20 PNG/JPEG/WebP images (100 MB combined), page ordering with arrow buttons, remove/clear controls, A4/Letter/fit-to-image pages, orientation, margins, quality, and PDF download. Images keep their proportions; transparency becomes white. Drag-to-reorder remains an enhancement.
+* **Online Color Picker:** Feature-detected native screen eyedropper, uploaded/dropped/pasted image sampling, 10× magnification, keyboard navigation and selection, HEX/RGB/HSL copy, and a 16-color history for the current visit.
+* **Shared limits:** PNG/JPEG/WebP uploads, 30 MB per image, 40 megapixels, and 16,384 pixels per side. Animated images use their first frame. PNG compression is lossless and has no quality adjustment; JPEG fills transparency with white. Unsupported output formats are reported rather than silently downloading a different format.
+* **Checks:** `pnpm test` runs focused tests for PDF layout, upload rejection/cleanup, and unsupported export formats. These tests import TypeScript directly and need Node 22.18+ or a newer supported Node release. Browser upload, canvas, and download flows also need interactive verification.
+
+| Remaining tool | Complexity | Main work |
+|---|---|---|
+| PDF to Image | Medium–High | PDF.js renderer/worker setup, page navigation, resolution controls, sequential export and memory cleanup |
+| Video to Audio | High | Container and codec compatibility, audio encoding, large-file memory, potentially FFmpeg WASM |
+| Site Checker | High for URL fetching | Cross-origin restrictions require a proxy/backend strategy; pasted HTML/XML/text inspection could be a smaller first version |
+| Validators | Medium for the full suite | JSON/YAML/TOML can reuse existing parsers; JS/TS, HTML/CSS, Markdown, and especially Go need language-specific parsing and diagnostics |
 
 Because WebTools runs **strictly in the browser with zero server components** (`output: "export"`), certain utilities encounter browser sandbox, CORS, bundle size, or cross-browser compatibility hurdles.
 
@@ -97,7 +112,7 @@ Because WebTools runs **strictly in the browser with zero server components** (`
 
 ---
 
-### ⚠️ Medium Difficulty: Tool #15 — Online Color Picker (Screen EyeDropper)
+### Implemented: Tool #15 — Online Color Picker (Screen EyeDropper)
 
 #### The Problem:
 * The native `window.EyeDropper` API is only supported in Chromium-based browsers (Chrome, Edge, Opera, Brave). It is **not supported** in Firefox or Safari.
@@ -127,7 +142,9 @@ Because WebTools runs **strictly in the browser with zero server components** (`
 
 ---
 
-## 3. Detailed Specifications for Remaining Tools
+## 3. Target Specifications and Future Enhancements
+
+The inventory and scope above describe the current implementation. The specifications below are the broader roadmap; some options remain future enhancements even for available tools.
 
 ### Group A: Quick Wins & Pure Text Utilities
 
@@ -299,8 +316,8 @@ flowchart TD
 * Dependencies: Zero new packages.
 * Effort: Very low, immediate high-value additions.
 
-### Phase 2: Color Suite (In Progress)
-* Tools: **Color Converter** (✅ Implemented), **Color Picker** (✅ Implemented), **Online Color Picker** (⏳ Pending)
+### Phase 2: Color Suite (Complete)
+* Tools: **Color Converter** (✅ Implemented), **Color Picker** (✅ Implemented), **Online Color Picker** (✅ Implemented)
 * Dependencies: Pure TypeScript color math, WCAG 2.1 compliance algorithms.
 * Unified core: Shared color conversion algorithms across tools.
 
@@ -309,13 +326,13 @@ flowchart TD
 * Dependencies: `papaparse`, reuse `yaml` & `smol-toml`.
 * Leverages tabbed layout, dynamic typing, live tabular preview, and object flattening.
 
-### Phase 4: Graphics & Image Utilities (In Progress)
-* Tools: **Placeholder Thumbnail Generator** (✅ Implemented), **QR Code Generator** (✅ Implemented), **Image to Base64** (✅ Implemented), **Image Compressor** (⏳ Pending)
+### Phase 4: Graphics & Image Utilities (Available; enhancements remain)
+* Tools: **Placeholder Thumbnail Generator** (✅ Implemented), **QR Code Generator** (✅ Implemented), **Image to Base64** (✅ Implemented), **Image Compressor** (✅ Implemented, single-image workflow)
 * Dependencies: `qrcode`, HTML5 Canvas, SVG.
 * Canvas-centric processing with instant download triggers.
 
-### Phase 5: Heavy Documents & Media (Days 11–14)
-* Tools: **Image to PDF**, **PDF to Image**, **Video to Audio Converter**
+### Phase 5: Heavy Documents & Media (In Progress)
+* Tools: **Image to PDF** (✅ Implemented), **PDF to Image** (⏳ Pending), **Video to Audio Converter** (⏳ Pending)
 * Dependencies: `pdf-lib`, `pdfjs-dist`, `jszip`, `lamejs`.
 * Requires careful worker configuration, memory management, and chunking.
 
