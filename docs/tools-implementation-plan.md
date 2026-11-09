@@ -1,374 +1,136 @@
-# WebTools — Comprehensive Tools Implementation Plan & Technical Assessment
-
-> **Project Context:** WebTools is a fast, privacy-first, 100% browser-based suite of developer and designer utilities built with **Next.js 16 (App Router)**, **React 19**, **Tailwind CSS v4**, and **TypeScript**. The application is configured with `output: "export"` (pure client-side static build), meaning no server runtime or server-side API routes exist by default.
-
----
-
-## 1. Executive Summary & Inventory
-
-WebTools defines **19 tools** in [`src/content/home.ts`](file:///home/hasibur/Code/hasiburdev/webtools/src/content/home.ts) and has corresponding custom SVG icons in [`src/components/icons/`](file:///home/hasibur/Code/hasiburdev/webtools/src/components/icons/).
-
-### Current Implementation Status
-* **Progress:** 15 of 19 tools available (78.9%)
-* **Implemented (15):** Password Generator, Slugify, Image Resizer, Formatters, Word Counter, Color Picker, URL Encoder/Decoder, Color Converter, Image to Base64 Converter, Placeholder Thumbnail Generator, QR Code Generator, CSV to JSON & JSON to CSV, Image Compressor, Image to PDF, Online Color Picker
-* **Remaining (4):** PDF to Image, Video to Audio Converter, Site Checker, Validators
-
-| # | Tool Name | Route | Status | Complexity | Key Technologies |
-|---|---|---|---|---|---|
-| 1 | **Password Generator** | `/password-generator` | ✅ Implemented | Low | Web Crypto API (`crypto.getRandomValues`) |
-| 2 | **Slugify** | `/slugify` | ✅ Implemented | Low | Regex & Unicode normalization |
-| 3 | **Image Resizer** | `/image-resizer` | ✅ Implemented | Medium | HTML5 Canvas, Drag-and-drop |
-| 4 | **Formatters** | `/formatters` | ✅ Implemented | Medium | Prettier, smol-toml, yaml, sql-formatter, xml-formatter |
-| 5 | **Image Compressor** | `/image-compressor` | ✅ Implemented | Low–Medium | Canvas, single-image quality/resize controls, before/after preview |
-| 6 | **CSV to JSON & JSON to CSV** | `/csv-json-converter` | ✅ Implemented | Low | `papaparse`, tabular data preview, delimiter auto-detection |
-| 7 | **Color Converter** | `/color-converter` | ✅ Implemented | Low | Bidirectional HEX/RGB/HSL/HSV/CMYK/CSS Names, WCAG 2.1 |
-| 8 | **Placeholder Thumbnail Generator** | `/placeholder-thumbnail-generator` | ✅ Implemented | Low | HTML5 Canvas / SVG rendering, patterns, gradients |
-| 9 | **QR Code Generator** | `/qr-code-generator` | ✅ Implemented | Low | `qrcode`, Canvas & SVG, Wi-Fi/vCard/SMS/URLs, logo support |
-| 10 | **Image to PDF** | `/image-to-pdf` | ✅ Implemented | Low–Medium | Lazy-loaded `pdf-lib`, ordered images, page layout controls |
-| 11 | **PDF to Image** | `/pdf-to-image` | ⏳ Pending | ⚠️ Medium-High | `pdfjs-dist` (Web Worker setup) |
-| 12 | **Video to Audio Converter** | `/video-to-audio-converter` | ⏳ Pending | 🔴 **High (Difficult)** | Web Audio API / `lamejs` or `@ffmpeg/ffmpeg` |
-| 13 | **Site Checker** | `/site-checker` | ⏳ Pending | 🔴 **High (Difficult)** | Browser CORS constraint / Proxy / Direct Input |
-| 14 | **URL Encoder / Decoder** | `/url-encoder-decoder` | ✅ Implemented | Low | `encodeURIComponent` / `URLSearchParams` / Base64 URL |
-| 15 | **Online Color Picker** | `/online-color-picker` | ✅ Implemented | Low–Medium | Feature-detected `EyeDropper`, image canvas with 10× loupe and keyboard sampling |
-| 16 | **Image to Base64 Converter** | `/image-to-base64-converter` | ✅ Implemented | Low | Native `FileReader`, Drag-and-drop, Data URLs, HTML/CSS snippets |
-| 17 | **Word Counter** | `/word-counter` | ✅ Implemented | Low | Native `Intl.Segmenter` & regex, real-time analytics, case transformations |
-| 18 | **Color Picker** | `/color-picker` | ✅ Implemented | Low | Pure TS color math, 2D Sat/Val canvas, harmonies, tints/shades, WCAG 2.1 |
-| 19 | **Validators** | `/validators` | ⏳ Pending | ⚠️ Medium | Parsers for JSON, YAML, TOML, Markdown, etc. |
-
----
-
-## 2. Technical Feasibility & Difficult Tools Deep Dive
-
-### Latest implementations and remaining complexity
-
-* **Image Compressor:** Single PNG/JPEG/WebP input, JPEG/WebP quality, maximum-width resizing, side-by-side previews, file size savings, and PNG/JPEG/WebP download. Batch/ZIP export and a sliding comparison overlay remain enhancements.
-* **Image to PDF:** Up to 20 PNG/JPEG/WebP images (100 MB combined), page ordering with arrow buttons, remove/clear controls, A4/Letter/fit-to-image pages, orientation, margins, quality, and PDF download. Images keep their proportions; transparency becomes white. Drag-to-reorder remains an enhancement.
-* **Online Color Picker:** Feature-detected native screen eyedropper, uploaded/dropped/pasted image sampling, 10× magnification, keyboard navigation and selection, HEX/RGB/HSL copy, and a 16-color history for the current visit.
-* **Shared limits:** PNG/JPEG/WebP uploads, 30 MB per image, 40 megapixels, and 16,384 pixels per side. Animated images use their first frame. PNG compression is lossless and has no quality adjustment; JPEG fills transparency with white. Unsupported output formats are reported rather than silently downloading a different format.
-* **Checks:** `pnpm test` runs focused tests for PDF layout, upload rejection/cleanup, and unsupported export formats. These tests import TypeScript directly and need Node 22.18+ or a newer supported Node release. Browser upload, canvas, and download flows also need interactive verification.
+# WebTools feature audit and implementation plan
+
+Reviewed against the repository on 2026-11-09. This is a code audit; a live catalog entry means a route and implementation exist, not that every browser flow has been verified.
+
+## Current scope
+
+The catalog now contains **19 tools: 17 live and 2 pending**. The requested SEO checker (sitemap, robots.txt, RSS, Open Graph and meta-tag inspection) has been removed from the catalog, icon registry, and roadmap. Home and About both derive their lists from `src/content/home.ts`, so both reflect the removal. There was no checker route or processing module to remove. Existing page titles and sharing metadata remain in `src/content/seo.ts`.
 
-| Remaining tool | Complexity | Main work |
-|---|---|---|
-| PDF to Image | Medium–High | PDF.js renderer/worker setup, page navigation, resolution controls, sequential export and memory cleanup |
-| Video to Audio | High | Container and codec compatibility, audio encoding, large-file memory, potentially FFmpeg WASM |
-| Site Checker | High for URL fetching | Cross-origin restrictions require a proxy/backend strategy; pasted HTML/XML/text inspection could be a smaller first version |
-| Validators | Medium for the full suite | JSON/YAML/TOML can reuse existing parsers; JS/TS, HTML/CSS, Markdown, and especially Go need language-specific parsing and diagnostics |
-
-Because WebTools runs **strictly in the browser with zero server components** (`output: "export"`), certain utilities encounter browser sandbox, CORS, bundle size, or cross-browser compatibility hurdles.
-
-### 🔴 High Difficulty: Tool #13 — Site Checker (Sitemap, robots.txt, RSS, OG tags, SEO tags)
-
-#### The Problem:
-* **Browser CORS Policy:** A browser cannot directly execute `fetch("https://example.com/robots.txt")` or `fetch("https://example.com/sitemap.xml")` because 99% of external websites do not include the `Access-Control-Allow-Origin: *` response header.
-* Because the site is exported statically (`output: "export"`), there are no Next.js backend API routes to proxy requests.
-
-#### Recommended Architecture & Solution:
-1. **Hybrid Execution Model (Best UX):**
-   * **Mode A: Direct Input / Paste & Analyze:** Users can paste raw HTML source code, XML sitemaps, or `robots.txt` text directly, or upload files for instant offline validation and OG tag previews.
-   * **Mode B: URL Fetching via Optional CORS Proxy:**
-     * Provide a default public CORS proxy (e.g., `https://api.allorigins.win/raw?url=` or CodeTabs).
-     * Provide an option in the UI for users to specify their own proxy URL (e.g., Cloudflare Worker).
-     * Clearly notify users about the CORS mechanism and privacy implications.
-2. **Parser Modules:**
-   * **OG / Meta Tag Inspector:** Parse HTML with native `DOMParser`, extract `<title>`, `<meta name="description">`, Open Graph (`og:*`), Twitter cards (`twitter:*`), canonical links, and viewport tags. Render live preview cards for Google SERP, Twitter/X, Facebook, and LinkedIn.
-   * **Sitemap Parser:** XML parser for `<urlset>` and `<sitemapindex>` with URL counting, lastmod verification, and broken URL warnings.
-   * **Robots.txt Parser:** Inspect User-agent directives, Disallow/Allow paths, sitemap declarations, and host rules.
-
----
-
-### 🔴 High Difficulty: Tool #12 — Video to Audio Converter
-
-#### The Problem:
-* Audio extraction from video containers (`.mp4`, `.mkv`, `.avi`, `.mov`, `.webm`) without server transcoding requires heavy client-side processing.
-
-#### Approaches Evaluated:
-
-| Approach | Pros | Cons | Verdict |
-|---|---|---|---|
-| **Option A: Web Audio API (`AudioContext.decodeAudioData`)** | Zero heavy bundle download, ultra-fast, native browser speed | Only supports audio/video codecs decoded natively by the browser (AAC in MP4, Opus/Vorbis in WebM). MKV/AVI will fail. | **Recommended for Phase 1** (Lightweight & clean) |
-| **Option B: FFmpeg.wasm (`@ffmpeg/ffmpeg`)** | Supports virtually all video/audio formats and bitrate conversions | Massive WebAssembly binary (~25–30 MB), high memory consumption, and multi-threading requires `SharedArrayBuffer` with COOP (`Cross-Origin-Opener-Policy: same-origin`) and COEP (`Cross-Origin-Embedder-Policy: require-corp`) headers. | **Alternative for Advanced Users** (Lazy loaded on demand) |
-
-#### Recommended Implementation:
-1. Start with the **Web Audio API + `lamejs` / WAV encoder**:
-   * Load the video file into an `AudioContext` or HTML5 `<video>` element.
-   * Decode the audio buffer into PCM.
-   * Encode to `.wav` (native in ~20 lines of code) or `.mp3` via `lamejs` (~150 KB).
-   * Supports standard MP4, WebM, MOV.
-2. Provide informative error messaging if an unsupported codec is uploaded.
-
----
-
-### ⚠️ Medium-High Difficulty: Tool #11 — PDF to Image
-
-#### The Problem:
-* Rendering PDF pages into images requires `pdfjs-dist` (Mozilla PDF.js).
-* Configuring the PDF.js web worker in Next.js 16 with static exports often causes bundler headaches (worker script paths, Turbopack bundling, CMAP font packages).
-* Memory management: Converting a 100-page PDF at high DPI (e.g., 2x or 3x for crisp output) can consume multiple gigabytes of memory and crash the browser tab.
-
-#### Recommended Implementation:
-* Use `pdfjs-dist` loaded dynamically with an explicit CDN or local worker path (`/pdf.worker.min.mjs` placed in `/public`).
-* Paginated/virtualized rendering: Only render visible pages to canvas, and export images sequentially or batch-download via `jszip`.
-* Provide resolution options (1x, 1.5x, 2x scale) and output formats (PNG, JPEG, WebP).
-
----
-
-### Implemented: Tool #15 — Online Color Picker (Screen EyeDropper)
-
-#### The Problem:
-* The native `window.EyeDropper` API is only supported in Chromium-based browsers (Chrome, Edge, Opera, Brave). It is **not supported** in Firefox or Safari.
-
-#### Recommended Implementation:
-* **Progressive Enhancement:**
-  * If `window.EyeDropper` is present: Display a prominent "Pick Color from Screen" button that launches the native eyedropper loupe anywhere on the screen.
-  * If not supported (Firefox/Safari): Show a friendly badge explaining browser support, and provide an interactive image dropzone where users can drop any screenshot or image to pick pixels via an interactive magnifying canvas loupe.
-
----
-
-### ⚠️ Medium Difficulty: Tool #19 — Validators (Multi-Language)
-
-#### The Problem:
-* The tool specification covers: **JSON, YAML, Markdown, TOML, JS, TS, Go, HTML, and CSS**.
-* Most languages have standard JavaScript parsers. However, **Go** does not have a native web runtime without compiling the Go compiler to WebAssembly or using a third-party Go parser.
-
-#### Recommended Implementation:
-* **JSON:** Native `JSON.parse` with custom position-to-line/column mapping (or `jsonlint`).
-* **YAML:** `yaml` package (already in `package.json`).
-* **TOML:** `smol-toml` package (already in `package.json`).
-* **HTML:** `htmlhint` or DOMParser error detection.
-* **CSS:** `csstree` or lightweight CSS AST parser.
-* **JavaScript / TypeScript:** `@babel/parser` or TypeScript's `createSourceFile` parser for AST syntax validation.
-* **Markdown:** `remark` / `markdownlint`.
-* **Go:** Use a lightweight JavaScript Go parser (e.g., `go-parser` or tree-sitter wasm for Go syntax validation), or validate basic syntax structure.
-
----
-
-## 3. Target Specifications and Future Enhancements
-
-The inventory and scope above describe the current implementation. The specifications below are the broader roadmap; some options remain future enhancements even for available tools.
-
-### Group A: Quick Wins & Pure Text Utilities
-
-#### 1. Word Counter (`/word-counter`)
-* **Module:** `src/modules/word-counter/`
-* **Features:**
-  * Real-time metrics: Words, Characters (with spaces), Characters (without spaces), Sentences, Paragraphs, Lines.
-  * Reading time estimate (~225 wpm) and Speaking time estimate (~140 wpm).
-  * Keyword density table (top 10 most frequent words, excluding common stop words).
-  * Case conversions (UPPERCASE, lowercase, Title Case, Sentence case).
-* **Dependencies:** None (Pure TypeScript using `Intl.Segmenter` and RegExp).
-
-#### 2. URL Encoder / Decoder (`/url-encoder-decoder`)
-* **Module:** `src/modules/url-encoder-decoder/`
-* **Features:**
-  * Dual-mode: Encode and Decode.
-  * Options: Standard (`encodeURIComponent`), Full URL (`encodeURI`), Base64 URL mode.
-  * Live Query Parameter Breakdown: Parses query strings into an interactive editable table of key-value pairs.
-* **Dependencies:** None (Native JS `encodeURIComponent`, `URL`, `URLSearchParams`).
-
----
-
-### Group B: Color & Design Utilities
-
-#### 3. Color Converter (`/color-converter`)
-* **Module:** `src/modules/color-converter/`
-* **Features:**
-  * Real-time bidirectional conversion between:
-    * **HEX / HEXA**
-    * **RGB / RGBA**
-    * **HSL / HSLA**
-    * **HSV / HSB**
-    * **CMYK**
-    * **CSS color names**
-  * One-click copy for each format with CSS snippets (`rgba(...)`, `hsl(...)`).
-  * Contrast ratio against black & white with WCAG AA / AAA compliance badges.
-* **Recommended Library:** `colord` (Ultra-lightweight ~1.7 KB, zero dependencies).
-
-#### 4. Color Picker (`/color-picker`)
-* **Module:** `src/modules/color-picker/`
-* **Features:**
-  * Interactive 2D gradient canvas (Saturation / Brightness) + Hue slider + Alpha slider.
-  * Shade & Tint palette generator (5 lighter shades, 5 darker shades).
-  * Color harmony suggestions: Complementary, Analogous, Triadic, Tetradic.
-  * Palette history saved in `localStorage`.
-* **Dependencies:** `colord`.
-
-#### 5. Online Color Picker (`/online-color-picker`)
-* **Module:** `src/modules/online-color-picker/`
-* **Features:**
-  * Native Screen EyeDropper (`window.EyeDropper`) with one-click sampling.
-  * Image Loupe Fallback: Upload/paste an image, hover with a 5x/10x magnifying glass to inspect and sample exact pixel colors.
-  * Color history palette with hex/rgb copy shortcuts.
-
----
-
-### Group C: Image & Visual Generation
-
-#### 6. Placeholder Thumbnail Generator (`/placeholder-thumbnail-generator`)
-* **Module:** `src/modules/placeholder-thumbnail-generator/`
-* **Features:**
-  * Custom dimensions (Width × Height) with popular presets:
-    * Social: YouTube Thumbnail (1280×720), Instagram Post (1080×1080), Open Graph (1200×630), Twitter Header (1500×500).
-    * Screen: 1920×1080, 1366×768, 800×600.
-  * Customizable background color, text color, label text, font family, and font size.
-  * Pattern overlays: Solid, Subtle Grid, Diagonal Stripes, Dots.
-  * Download as PNG, WebP, or SVG, and copy direct Data URL or SVG markup.
-* **Dependencies:** Native HTML5 Canvas & SVG.
-
-#### 7. QR Code Generator (`/qr-code-generator`)
-* **Module:** `src/modules/qr-code-generator/`
-* **Features:**
-  * Input types: URL, Plain Text, WiFi Network (SSID/Password/Security), vCard (Contact details), Email, SMS.
-  * Customization: Foreground color, background color, error correction level (L, M, Q, H), margin/padding.
-  * Optional center logo overlay.
-  * Download formats: PNG, SVG, or copy to clipboard.
-* **Recommended Library:** `qrcode` or `qr-code-styling`.
-
-#### 8. Image to Base64 Converter (`/image-to-base64-converter`)
-* **Module:** `src/modules/image-to-base64-converter/`
-* **Features:**
-  * Bidirectional: Image to Base64 AND Base64 to Image preview.
-  * Output formats: Raw Base64 string, Data URI (`data:image/png;base64,...`), HTML `<img>` tag snippet, CSS `background-image` snippet.
-  * File size comparison (Original binary size vs. Base64 payload size).
-* **Dependencies:** Native `FileReader` and Canvas.
-
-#### 9. Image Compressor (`/image-compressor`)
-* **Module:** `src/modules/image-compressor/`
-* **Features:**
-  * Multi-format support: JPEG, WebP, PNG.
-  * Quality slider (0% to 100%) with instant visual preview.
-  * Split-screen Before / After comparison slider.
-  * Live file size calculation and savings percentage (e.g. "-64%").
-  * Batch compression for multiple uploaded images with ZIP download.
-* **Recommended Library:** `browser-image-compression` or Canvas-based compressor.
-
----
-
-### Group D: Data & Parsing
-
-#### 10. CSV to JSON & JSON to CSV (`/csv-json-converter`)
-* **Module:** `src/modules/csv-json-converter/`
-* **Features:**
-  * Tabbed interface: CSV ➔ JSON and JSON ➔ CSV.
-  * CSV Options: Delimiter auto-detection (comma, semicolon, tab, pipe), header row toggle, trim whitespace, parse numbers/booleans.
-  * JSON Options: Formatted output (2/4 spaces) or minified, handle nested objects (flattening/unflattening).
-  * Live interactive data table preview with pagination.
-  * File upload (`.csv`, `.json`) and one-click file download.
-* **Recommended Library:** `papaparse` (Fastest, handles edge cases, quotes, and multi-line fields cleanly).
-
-#### 11. Validators (`/validators`)
-* **Module:** `src/modules/validators/`
-* **Features:**
-  * Language selector: JSON, YAML, TOML, Markdown, HTML, CSS, JavaScript, TypeScript, Go.
-  * Instant syntax validation with line & column error highlights.
-  * Detailed diagnostic message box (e.g., "Unexpected token '}' at Line 14, Col 5").
-  * Format & Auto-fix button (integrating with the existing formatters engine).
-* **Dependencies:** Reuse existing `smol-toml`, `yaml`, plus lightweight parsers.
-
----
-
-### Group E: Document & Media Conversion
-
-#### 12. Image to PDF (`/image-to-pdf`)
-* **Module:** `src/modules/image-to-pdf/`
-* **Features:**
-  * Multi-image upload with drag-and-drop reordering.
-  * Page settings: Page size (A4, Letter, Auto/Fit to Image), orientation (Portrait, Landscape), margins (None, Small, Large).
-  * Image quality adjustment to control output PDF file size.
-  * Client-side PDF generation and instant download.
-* **Recommended Library:** `pdf-lib` (pure JS, fast, zero canvas requirement).
-
-#### 13. PDF to Image (`/pdf-to-image`)
-* **Module:** `src/modules/pdf-to-image/`
-* **Features:**
-  * PDF page thumbnail preview grid.
-  * Extract specific page or all pages as PNG, JPEG, or WebP.
-  * Quality/Scale settings: 1x (standard), 2x (retina/print).
-  * Single page download or batch export as `.zip`.
-* **Recommended Library:** `pdfjs-dist` + `jszip`.
-
-#### 14. Video to Audio Converter (`/video-to-audio-converter`)
-* **Module:** `src/modules/video-to-audio-converter/`
-* **Features:**
-  * Drag-and-drop video upload (MP4, WebM, MOV).
-  * Video playback preview with audio waveform visualizer.
-  * Output formats: MP3 (via `lamejs`) or WAV (lossless PCM).
-  * Bitrate selection: 128 kbps, 192 kbps, 320 kbps.
-  * Trimming controls (extract only from start time to end time).
-* **Recommended Library:** Web Audio API + `lamejs`.
-
----
-
-## 4. Phase-by-Phase Implementation Roadmap
-
-To maintain velocity and high code quality, implementation should proceed in **6 structured phases**:
-
-```mermaid
-flowchart TD
-    P1["Phase 1: Pure Client Text Utilities<br/>• Word Counter<br/>• URL Encoder/Decoder"] --> P2["Phase 2: Color Suite<br/>• Color Converter<br/>• Color Picker<br/>• Online Color Picker"]
-    P2 --> P3["Phase 3: Data & Parsing<br/>• CSV ↔ JSON Converter<br/>• Validators"]
-    P3 --> P4["Phase 4: Visual & Image Utilities<br/>• Placeholder Thumbnail Gen<br/>• QR Code Generator<br/>• Image to Base64<br/>• Image Compressor"]
-    P4 --> P5["Phase 5: Heavy Documents & Media<br/>• Image to PDF<br/>• PDF to Image<br/>• Video to Audio Converter"]
-    P5 --> P6["Phase 6: External Inspection<br/>• Site Checker (CORS / Hybrid)"]
-```
-
-### Phase 1: High-Velocity Text Utilities (Complete)
-* Tools: **Word Counter** (✅ Implemented), **URL Encoder/Decoder** (✅ Implemented)
-* Dependencies: Zero new packages.
-* Effort: Very low, immediate high-value additions.
-
-### Phase 2: Color Suite (Complete)
-* Tools: **Color Converter** (✅ Implemented), **Color Picker** (✅ Implemented), **Online Color Picker** (✅ Implemented)
-* Dependencies: Pure TypeScript color math, WCAG 2.1 compliance algorithms.
-* Unified core: Shared color conversion algorithms across tools.
-
-### Phase 3: Data & Validation (In Progress)
-* Tools: **CSV to JSON & JSON to CSV** (✅ Implemented), **Validators** (⏳ Pending)
-* Dependencies: `papaparse`, reuse `yaml` & `smol-toml`.
-* Leverages tabbed layout, dynamic typing, live tabular preview, and object flattening.
-
-### Phase 4: Graphics & Image Utilities (Available; enhancements remain)
-* Tools: **Placeholder Thumbnail Generator** (✅ Implemented), **QR Code Generator** (✅ Implemented), **Image to Base64** (✅ Implemented), **Image Compressor** (✅ Implemented, single-image workflow)
-* Dependencies: `qrcode`, HTML5 Canvas, SVG.
-* Canvas-centric processing with instant download triggers.
-
-### Phase 5: Heavy Documents & Media (In Progress)
-* Tools: **Image to PDF** (✅ Implemented), **PDF to Image** (⏳ Pending), **Video to Audio Converter** (⏳ Pending)
-* Dependencies: `pdf-lib`, `pdfjs-dist`, `jszip`, `lamejs`.
-* Requires careful worker configuration, memory management, and chunking.
-
-### Phase 6: External Site & SEO Inspector (Days 15–16)
-* Tools: **Site Checker (Sitemap, robots.txt, RSS, OG tags)**
-* Strategy: Implement the dual-mode architecture (Direct Input + Configurable CORS Proxy).
-
----
-
-## 5. Architectural Standards & Developer Guide
-
-When implementing any tool, adhere strictly to the established patterns in the codebase:
-
-1. **Folder Layout per Tool:**
-   ```
-   src/
-     app/
-       <tool-slug>/
-         page.tsx          # Page component with SEO metadata and layout
-     modules/
-       <tool-slug>/
-         <tool-slug>.tsx   # Main Client Component ("use client")
-         utils.ts          # Pure helper functions
-         types.ts          # Domain TypeScript interfaces
-         index.ts          # Barrel export
-   ```
-
-2. **SEO Metadata (`src/content/seo.ts`):**
-   * Every new page must have an entry in `pageSeo.<toolName>`.
-   * Include title, description, keywords, canonical URL, OpenGraph, and Twitter tags.
-
-3. **Homepage Catalog (`src/content/home.ts`):**
-   * Change `href: "/"` to the proper route `href: "/<tool-slug>"`.
-   * Remove `disabled: true`.
-   * Verify that the icon corresponds to the registered SVG icon in `src/components/icons/index.ts`.
-
-4. **100% Privacy & Offline Capability:**
-   * Never send user inputs, images, or files to any remote server.
-   * All conversions, formatting, and operations must execute locally in the client browser.
+The previous plan was stale: Validators is implemented, and Markdown to PDF is also live. Neither needs to be built from scratch.
+
+| Tool | Route | Code status |
+| --- | --- | --- |
+| Password Generator | `/password-generator` | Live |
+| Slugify | `/slugify` | Live |
+| Image Resizer | `/image-resizer` | Live; reliability and touch gaps below |
+| Image Compressor | `/image-compressor` | Live; single image |
+| CSV ↔ JSON | `/csv-json-converter` | Live; first 20 rows previewed |
+| Color Converter | `/color-converter` | Live |
+| Placeholder Thumbnail Generator | `/placeholder-thumbnail-generator` | Live |
+| QR Code Generator | `/qr-code-generator` | Live |
+| Image to PDF | `/image-to-pdf` | Live |
+| Markdown to PDF | `/markdown-to-pdf` | Live |
+| PDF to Image | Proposed: `/pdf-to-image` | Pending; disabled card and icon only |
+| Video to Audio Converter | Proposed: `/video-to-audio-converter` | Pending; disabled card and icon only |
+| URL Encoder/Decoder | `/url-encoder-decoder` | Live |
+| Online Color Picker | `/online-color-picker` | Live |
+| Image to Base64 Converter | `/image-to-base64-converter` | Live |
+| Word Counter | `/word-counter` | Live |
+| Color Picker | `/color-picker` | Live |
+| Validators | `/validators` | Live; 10 languages |
+| Formatters | `/formatters` | Live; 10 languages |
+
+## Confirmed gaps and priority
+
+These gaps are visible in the source. Enhancements from the previous roadmap are distinguished from entire missing tools.
+
+| Priority | Gap | Evidence | Implementation |
+| --- | --- | --- | --- |
+| P1 | Image Resizer lacks newer upload/export safeguards | `src/modules/image-resizer/image-resizer.tsx` accepts `image/*`, has no decode-error UI or file/pixel budget, uses unrestricted output state and `toDataURL`, and lacks unmount URL cleanup | Share validation and blob export from `src/lib/browser-images.ts`; validate output dimensions before allocating a canvas; add errors, stale-load protection, and cleanup |
+| P1 | Mobile crop interaction is incomplete | Resizer canvas uses mouse handlers; numeric crop controls appear after creating a selection | Use Pointer Events and pointer capture; provide keyboard crop creation and numeric adjustments immediately |
+| P1 | Mobile menu focus handling is incomplete | `src/components/mobile-menu.tsx` translates the closed panel offscreen but leaves links focusable; no focus trap/restoration | Use the installed Base UI dialog primitive, preserving Escape, scroll locking, focus containment, and return focus |
+| P1 | PDF to Image is absent | No route/module or `pdfjs-dist` dependency | Build the PDF.js workflow below |
+| P2 | Video to Audio is absent | No route/module or audio conversion engine | Validate a local FFmpeg WASM approach, then implement the workflow below |
+| P2 | CSV pagination and reverse nesting are missing | `csv-json-converter.tsx` uses `tableData.slice(0, 20)`; `csv-json-utils.ts` has flattening but no unflattening | Paginate the table; add opt-in nesting with explicit collision rules |
+| P2 | Large data processing can block interaction | CSV conversion and language parsing run on the client thread; debounce alone does not offload computation | Establish input budgets and move expensive work into workers with cancellation and stale-result protection |
+| P2 | Image Compressor lacks planned batch/ZIP and comparison slider | Current component loads one image through `useLocalImage` and shows two previews | Add a bounded queue, per-file results, cancellation, ZIP export, and an accessible comparison slider |
+| P3 | Image to PDF lacks drag reordering | Ordering already works with arrow buttons | Add pointer/keyboard drag reordering, retaining arrows |
+| P3 | Validator formatting and Go support from the old roadmap are absent | Validator language list mirrors formatters; no Go parser or format action | Reuse the formatter engine; treat Go as a separate parser project if still wanted |
+| P3 | Tool discovery is basic | `src/components/home/tools-list.tsx` renders an unfiltered catalog | Add search, categories, empty results, and optionally local favorites |
+| P3 | Browser coverage and contributor docs are limited | Four Node test files; README is still starter text | Add focused browser flows and document actual setup, limits, and deployment |
+
+## Delivery order
+
+Estimates are planning ranges for one developer, including focused verification. Reassess after the media feasibility work; these are not delivery commitments.
+
+### 1. Reliability and accessibility — 2–3 developer days
+
+1. Update Image Resizer while preserving crop/preset behavior. Extract dimension validation; propose output caps of 40 megapixels and 16,384 pixels per side. Validate finite positive integers in code, rather than relying on input `max` attributes.
+2. Reuse shared loading/export helpers, extending them for crop regions. Decide and document which existing resizer formats to retain; do not silently drop GIF/BMP/SVG support when adopting the PNG/JPEG/WebP helper. Reject corrupt and unsupported inputs visibly.
+3. Revoke source URLs on replacement/unmount, discard stale decodes, clear temporary canvases, and verify blob MIME types match selected formats.
+4. Add pointer-based cropping, keyboard crop creation/adjustments, and drawer focus management.
+5. Resolve the existing lint baseline: `react-hooks/set-state-in-effect` errors in `src/components/theme-toggle.tsx`, `src/modules/password-generator/password-generator.tsx`, and `src/modules/url-encoder-decoder/url-encoder-decoder.tsx`. Derive URL breakdown from input; subscribe to theme changes; handle password generation lifecycle without suppressing the rule. Remove unused imports reported by lint.
+
+Acceptance: corrupt/oversized images show errors; oversized output cannot allocate a canvas; replacing an image during decoding cannot restore old state; PNG/JPEG/WebP downloads match MIME/extension; touch and keyboard users can crop; closed navigation is absent from tab order and closing restores focus; lint passes without disabling rules.
+
+### 2. PDF to Image — 3–5 developer days
+
+Create `src/app/pdf-to-image/page.tsx` and `src/modules/pdf-to-image/` with a client UI, loader, page-range helpers, export queue, types, and barrel export. Reuse `ToolPage`, buttons, byte formatting, blob downloads, and the existing icon.
+
+1. Add a pinned compatible `pdfjs-dist` dependency and lazy-load it on this tool. Ship its matching worker and required font/CMap/WASM assets on the same origin. Automate copying assets from the installed package so upgrades cannot leave a stale worker.
+2. First prove the worker loads from the production static export without a CDN. Open local PDF bytes, display page count, and handle corrupt files/password requests with actionable states.
+3. Render the visible page and bounded low-resolution thumbnails. Add current-page, selected-range (`1,3-5`), and all-pages selection with validation.
+4. Export PNG/JPEG/WebP with 1×/2× scale and JPEG/WebP quality. Keep exported dimensions independent of device pixel ratio, fill JPEG transparency white, and verify encoder support.
+5. Deliver single-page downloads first, then bounded ZIP export using a shared ZIP helper. Render sequentially, release resources, and stop on cancellation/navigation.
+6. Proposed initial limits: 30 MB per input, 40 megapixels per rendered page, and 100 selected pages per batch. Add an aggregate output-byte budget because ZIP libraries may retain all blobs. Tune limits using desktop/mobile measurements.
+7. Add route metadata and activate the catalog card only after acceptance checks pass.
+
+Acceptance: mixed page sizes/rotations render correctly; invalid ranges fail; filenames use zero-padded page numbers; output dimensions and MIME types match settings; encrypted/corrupt PDFs are handled; cancellation/repeated uploads release resources; the exported site serves every worker asset. Test ordinary, scanned, font-heavy, and large documents across Chromium, Firefox, and Safari.
+
+The approach follows the [official PDF.js examples](https://mozilla.github.io/pdf.js/examples/): page viewports, canvas rendering, and waiting for prior renders before reusing a canvas.
+
+### 3. Data and image enhancements — 3–5 developer days
+
+1. Add CSV preview page size, previous/next, row counts, and reset/clamp behavior on input changes. Downloads must include all rows regardless of preview pagination.
+2. Implement opt-in unflattening with a documented dotted-key convention. Reject scalar/object collisions and ambiguous paths; define array behavior and block prototype keys (`__proto__`, `constructor`, `prototype`). Keep flat conversion available for literal dotted headers.
+3. Add CSV upload/text limits before parsing, read errors, and stale-upload protection. Move large parsing jobs into workers with request IDs; terminate/replace work on cancellation. Reuse the convention for validators and formatters.
+4. Add a bounded compressor batch queue with shared image limits, per-file savings/errors, retry, cancel, individual download, and size-limited ZIP download.
+5. Add a keyboard-operable comparison slider. Add Image to PDF drag reordering after queue/export behavior is stable.
+
+Acceptance: the final CSV page is reachable; nested conversions are collision-safe; old jobs cannot replace current output; large jobs leave controls responsive; one corrupt image cannot fail the entire batch; ZIP size stays within budget; PDF order matches pointer/keyboard reordering.
+
+### 4. Video to Audio — 1–2 day feasibility spike, then 4–6 developer days
+
+This is the highest-risk missing tool because decoding, encoding, worker loading, and peak memory must work in a static deployment.
+
+1. Prototype lazy-loaded, single-thread `@ffmpeg/ffmpeg` and `@ffmpeg/core` with same-origin assets. Verify local MP4/AAC and WebM/Opus samples produce playable WAV/MP3; test MOV separately. Record actual supported codecs and peak memory before promising format support.
+2. Prove worker/WASM loading from the exported site with the host's MIME/CSP settings. Keep the engine out of the initial homepage bundle and show engine loading status when conversion is requested.
+3. Create `src/app/video-to-audio-converter/page.tsx` and `src/modules/video-to-audio-converter/`. Add upload/drop, details, video preview where supported, output format, Convert, progress, audio preview, and download.
+4. Extract audio and handle videos without an audio track. Add WAV first, then MP3 at verified bitrates (128/192/320 kbps) if supported by the chosen core. Validate trim bounds/output duration before enabling trimming. Offer audio-track selection or explicitly document the default track.
+5. Start with a proposed 50 MB input limit plus measured duration/output-memory budgets. WAV size depends on duration, channels, and sample rate; file size alone is insufficient.
+6. Cancel by terminating the worker and recreate it for another job. Delete virtual filesystem inputs/outputs after success/failure, revoke preview URLs, and reject stale results.
+7. Activate the catalog card after real-file conversion and static-export checks pass. Waveform visualization can follow later if it helps trimming.
+
+Acceptance: outputs play with expected duration, channels, and MIME type; unsupported codecs, missing audio, corrupt input, and invalid trim bounds have readable states; cancel permits another conversion; navigation releases the engine; files stay local.
+
+The [FFmpeg WASM usage guide](https://ffmpegwasm.netlify.app/docs/getting-started/usage/) documents engine loading and additional SharedArrayBuffer requirements for its multi-thread core. Use single-thread initially; evaluate multi-threading after hosting/memory measurements. Check the selected core and bundled library licenses described in its [FAQ](https://ffmpegwasm.netlify.app/docs/faq/) when choosing the shipped build.
+
+The old plan's `decodeAudioData`-first recommendation should not promise MP4/WebM/MOV support. [MDN documents](https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData) that it decodes complete file data into an in-memory AudioBuffer and resamples to the context rate. Inference for this project: measure actual container/codec support and memory use instead of assuming a general video extraction pipeline.
+
+### 5. Optional polish — scope after the core releases
+
+- Offer validator formatting through the existing engine. Preserve input for undo, apply changes only on user action, and revalidate. Do not promise automatic repair of malformed code.
+- If Go remains desired, decouple validator IDs from formatter IDs and integrate a real Go syntax parser in a worker. Brace counting is insufficient; syntax validation must not claim type checking.
+- Add catalog search/categories and optional locally stored favorites with safe behavior when storage is blocked. Keep catalog content available in static HTML.
+- Replace the starter README with actual setup, Node/pnpm requirements, checks, architecture, privacy/limits, and static deployment instructions.
+- Treat Markdown image embedding and broader Unicode font coverage as separate enhancements: the current UI says images use alt text and the renderer uses built-in font families. Verify fonts/images with rendered fixtures before claiming full fidelity.
+
+## Architecture and release checks
+
+- Preserve `output: "export"` in `next.config.ts`. Build-time rendered page shells are compatible; browser APIs/conversion engines belong in client components/workers. No backend/upload service is required.
+- Read relevant installed guides in `node_modules/next/dist/docs/` before route, worker, or bundling changes.
+- Keep content local; self-host worker/WASM/font assets and avoid implicit remote document-image fetching. Load heavy libraries only where needed.
+- Share dimensions, filenames, cancellation, blob cleanup, and ZIP budgets without building a generic framework for small text tools.
+- Keep pending cards disabled until routes/conversions pass verification. Home/About share one catalog entry per tool.
+- Run `pnpm test`, `pnpm exec tsc --noEmit`, `pnpm lint`, and `pnpm build`. Serve `out/` over HTTP to verify production assets and direct route access.
+- Add meaningful fixtures for page ranges, limits, nested key collisions, queue cancellation, and filenames. Cover actual browser uploads/downloads, navigation focus, and touch crop behavior; Node mocks cannot prove these flows.
+- A manifest already exists, but no service worker exists in the source. Local processing does not guarantee offline cold starts; add caching and tests before making that claim.
+
+## Audit verification
+
+- Existing tests: **42 passed** (`pnpm test`).
+- TypeScript: `pnpm exec tsc --noEmit` passed.
+- Changed catalog/icon registry files pass ESLint; `git diff --check` passes. All 17 live catalog entries resolve to existing page files, and the two remaining disabled entries are PDF to Image and Video to Audio.
+- Existing lint baseline: **3 errors, 21 warnings**, in unchanged files. The errors and remediation are listed in phase 1.
+- Production build could not complete: Turbopack's CSS worker failed to bind an internal port with `Operation not permitted`, including on an escalated retry. Production build/export verification remains outstanding in a host that permits that worker.
+- Browser conversion/accessibility findings above are based on source inspection; cross-browser acceptance work remains part of implementation.

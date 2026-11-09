@@ -11,7 +11,6 @@ export type HomeToolIconName =
   | "markdownToPdf"
   | "pdfToImage"
   | "videoToAudioConverter"
-  | "siteChecker"
   | "urlEncoderDecoder"
   | "onlineColorPicker"
   | "imageToBase64Converter"
@@ -140,15 +139,6 @@ export const homeTools: HomeTool[] = [
     icon: "videoToAudioConverter",
     iconClass:
       "text-amber-600 bg-amber-50 dark:text-amber-400 dark:bg-amber-950/60",
-  },
-  {
-    name: "Sitemap, robots.txt, RSS, OG tags, SEO tags Checker",
-    description: "Inspect common SEO and discovery files and tags quickly.",
-    href: "/",
-    disabled: true,
-    icon: "siteChecker",
-    iconClass:
-      "text-teal-600 bg-teal-50 dark:text-teal-400 dark:bg-teal-950/60",
   },
   {
     name: "URL Encoder/Decoder",
