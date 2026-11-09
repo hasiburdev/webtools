@@ -193,9 +193,8 @@ export const homeTools: HomeTool[] = [
   {
     name: "Validators",
     description:
-      "Validate JSON, YAML, Markdown, TOML, JS, TS, Go, HTML, and CSS.",
-    href: "/",
-    disabled: true,
+      "Validate JSON, YAML, TOML, SQL, XML, HTML, CSS, JS, TS, and Markdown.",
+    href: "/validators",
     icon: "validators",
     iconClass:
       "text-slate-700 bg-slate-100 dark:text-slate-300 dark:bg-slate-900/60",

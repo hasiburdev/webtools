@@ -257,6 +257,22 @@ export const pageSeo = {
     },
   },
 
+  validators: {
+    title: "Code & Data Validators",
+    description: "Validate JSON, YAML, TOML, SQL, XML, HTML, CSS, JavaScript, TypeScript, and Markdown in your browser. Find syntax errors and lint warnings with line and column details. No uploads or signup.",
+    keywords: ["json validator", "yaml validator", "toml validator", "sql validator", "xml validator", "html validator", "css validator", "javascript validator", "typescript validator", "markdown validator", "online code validators"],
+    alternates: { canonical: `${siteConfig.url}/validators` },
+    openGraph: {
+      url: `${siteConfig.url}/validators`,
+      title: `Code & Data Validators — ${siteConfig.name}`,
+      description: "Check code and data for syntax errors and lint warnings, privately in your browser.",
+    },
+    twitter: {
+      title: `Code & Data Validators — ${siteConfig.name}`,
+      description: "Validate JSON, YAML, TOML, SQL, XML, HTML, CSS, JS, TS, and Markdown with instant diagnostics.",
+    },
+  },
+
   // Formatters — /formatters
   formatters: {
     title: "Code & Data Formatters",
